@@ -1,0 +1,10 @@
+*.pyc
+*.egg-info
+*html
+build/
+dist/
+.DS_Store
+agents.yml
+temp_dir
+run_bots.py
+py*
