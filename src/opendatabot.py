@@ -6,6 +6,8 @@ import urlparse
 import os
 import json, urllib
 
+from getquery import getsearchquery
+
 def get_url_extension(url):
     path = urlparse.urlparse(url).path
     return os.path.splitext(path)[1]
@@ -22,15 +24,16 @@ def search(query):
     search_response = urllib.urlopen(url)
     search_results = search_response.read()
     results = json.loads(search_results)
+    
     data = results['responseData']
-    print 'Total results: %s' % data['cursor']['estimatedResultCount']
     hits = data['results']
-    print 'Top %d hits:' % len(hits)
+
     return hits[0]['url']
 
 class ReflectorBot(SnapchatBot):
     def on_snap(self, sender, snap):
-        local_filename = download_file(search('edmonton art'))
+        query = getsearchquery()
+        local_filename = download_file(search(query))
         snap = Snap.from_file(local_filename)
         self.send_snap([sender], snap)
 
