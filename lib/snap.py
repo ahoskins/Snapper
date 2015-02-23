@@ -21,8 +21,8 @@ class Snap(object):
             image = Image.open(path)
 
             draw = ImageDraw.Draw(image)
-            font = ImageFont.truetype("aller-font.ttf", 25)
-            draw.text((10, 10), 'Name:' + query['title'] + ' Artist:' + query['artist'], (255,255,255), font=font)
+            font = ImageFont.truetype("aller-font.ttf", 28)
+            draw.text((10, 10), 'Name:' + query['title'] + ' Artist:' + query['artist'], (255,0,0), font=font)
             del draw
 
             tmp = create_temporary_file(".jpg")
