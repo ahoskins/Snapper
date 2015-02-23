@@ -1,107 +1,31 @@
-# SnapchatBot: Python library for building bots that live on Snapchat
+# Snapper
 
-Introducing SnapchatBot, an easy way to program Snapchat accounts to do anything you want.
-SnapchatBot can be used to create image-based notification services, chatbots, search interfaces,
-and any kind of intelligent agent that uses picture messages as its interaction mode.
+Created for the Canadian Open Data Experiance (CODE) hackathon.  The purpose of the CODE hackathon is to use open data to build an app/service.  This is the repo for a Snapchat bot service which snaps images of Edmonton public art.
 
-## Bots Included
+Snapper is a Python service using Snapchat's (non-public) API.  This project relies on [SnapchatBot](https://github.com/agermanidis/SnapchatBot) to provide a Python interface and some boilerplate for making a bot that resides on Snapchat.  This library is included in this repo - no need to install it seperately.
 
-#### The Reflector Bot
-*(source at examples/reflectorbot.py)*
+# Installation
 
-Sends back everything you send it.
+1. clone this repo
+2. `$ python setup.py install` (virtualenv, recommended)
 
-#### The Storifier Bot
-*(source at examples/storifierbot.py)*
+# Usage
 
-Takes all the snaps sent to it and adds them to its story. It can be used to collect responses
-from multiple people around a single theme, much like a Twitter hashtag.
+1. Use the official snapchat app to make an account for the bot
+1. cd into `/src`
+2. `$ python opendatabot.py -u <account-name> -p <account-password>` to start the bot
 
-#### The Auto-Welcomer Bot
-*(source at examples/autowelcomebot.py)*
+The bot will run in the terminal.  As long as the terminal window is open, the bot is active.  Once the terminal window is closed, the bot is no longer active.
 
-Sends you an auto-welcome message when you add it to your friends.
+# How it works
+ 
+When you send the bot a snapchat - any snapchat - a picture of you're adorable dog, a big chocolate cake, a dolphin dancing.  The bot is selfish and simply doesn't care about your life and what you send it.
 
-#### The Reporter Bot
-*(source at examples/reporterbot.py)*
+Once you send your snap the bot will hit an API endpoint with JSON data on public art in the City of Edmonton.  This RESTful API is provided by [Namara](http://namara.io/#/search), a service for browsing open data.  The bot will then randomly select a piece of art from this JSON response.
 
-Sends you a snap when breaking news happen. Follows the [BBC Breaking News twitter account](https://twitter.com/bbcbreaking).
+It will do a google image search using the title and artist name of the particular piece.  The [Google Search API](https://developers.google.com/image-search/v1/jsondevguide) is used to handle this, and will return another JSON object this time holding a bunch of links to image results.
 
-#### The Googler Bot
-*(source at examples/googlerbot.py)*
+The bot will is bold and trusts that the first image result is an accurate one.  It will use the first result and download that image.  And that's it! This is the point when the SnapchatBot library is used to send this downloaded image back to the original (human) sender.  
 
-When sent an image, sends back the most similar image to that picture on the web. Uses Google Image Search.
 
-#### The GIF Bot
-*(source at examples/gifbot.py)*
-
-Posts popular GIFs taken from the [Giphy](http://giphy.com) home page to its story.
-
-#### The Connector Bot
-*(source at examples/connectorbot.py)*
-
-When you add the Connector to your friends, it links you with a stranger who's also added it. Every snap sent to the Connector will then arrive at the stranger's inbox, and all snaps sent from the stranger to the Connector will come to you. It's like ChatRoulette on Snapchat.
-
-#### The Capture Bot (by [EthanBlackburn](https://github.com/EthanBlackburn))
-*(source at examples/capturebot.py)*
-
-Saves all snaps received to the current working directory.
-
-## Installation
-
-    $ python setup.py install
-
-You also need to have [ffmpeg](https://www.ffmpeg.org/) and [ImageMagick](http://www.imagemagick.org/) installed.
-
-## How to build your own bots
-
-`SnapchatBot` currently supports the following methods:
-
-* `SnapchatBot#send_snap(recipients, snap)` -- sends snap `snap` to the list of usernames `recipients`
-* `SnapchatBot#add_friend(username)` -- adds user with username `username` to the bot's friends
-* `SnapchatBot#delete_friend(username)` -- deletes user with username `username` from the bot's friends
-* `SnapchatBot#block(username)` -- blocks user with username `username`
-* `SnapchatBot#get_snaps(mark_viewed = True)` -- gets snaps in the bot's inbox that haven't been viewed yet (use `mark_viewed = False` as a keyword argument if you don't want the bot to mark every snap received as viewed)
-* `SnapchatBot#mark_viewed(snap)` -- marks `snap` as viewed
-* `SnapchatBot#get_friends()` -- gets the bot's friends
-* `SnapchatBot#get_added_me()` -- gets all users that have added the bot to their friends
-* `SnapchatBot#listen()` -- listens to events (and triggers `on_snap`, `on_friend_add`, or `on_friend_delete`, if they are defined)
-
-To create a snap to send with your bot, either use `Snap.from_file(path_to_file)` with a path
-to an image or a video, or create an image with PIL and then use `Snap.from_image(img)`.
-
-To define behaviors for your bot in response to various events (right now only
-incoming snaps, friend additions, and friend deletions are supported) subclass `SnapchatBot`
-and define any subset of the following methods:
-
-* `initialize` -- run when the bot is created
-* `on_snap` -- run when the bot bot receives a snap
-* `on_friend_add` -- run when a Snapchat user adds the bot
-* `on_friend_delete` -- run when a Snapchat user deletes the bot
-
-To begin listening to events, use the `SnapchatBot#listen` method.
-
-For example, here is the code for the `ReflectorBot`, which simply responds to a snap by sending it
-back to the user who sent it:
-
-```python
-class ReflectorBot(SnapchatBot):
-  # when receiving a snap, sends the same snap back to the sender
-  def on_snap(self, sender, snap):
-    self.send_snap([sender], snap)
-
-  # when someone adds the bot, the bot adds them back
-  def on_friend_add(self, friend):
-    self.add_friend(self, friend)
-
-  # when someone deletes the bot, the bot deletes them too
-  def on_friend_delete(self, friend):
-    self.delete_friend(self, friend)
-```
-
-Then to run the bot:
-
-```python
-bot = ReflectorBot(<account username>, <account password>)
-bot.listen()
-```
+Due to Edmonton not having a ton of public art, there is only a handful of possible images that will be send back :)
