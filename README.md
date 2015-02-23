@@ -25,7 +25,6 @@ Once you send your snap the bot will hit an API endpoint with JSON data on publi
 
 It will do a google image search using the title and artist name of the particular piece.  The [Google Search API](https://developers.google.com/image-search/v1/jsondevguide) is used to handle this, and will return another JSON object this time holding a bunch of links to image results.
 
-The bot will is bold and trusts that the first image result is an accurate one.  It will use the first result and download that image.  And that's it! This is the point when the SnapchatBot library is used to send this downloaded image back to the original (human) sender.  
-
+The bot is bold and trusts that the first image result is a picture of the piece of art.  It will download that image.  And that is it! At this point the SnapchatBot library is used to send this downloaded image back to the original (human) sender.  
 
 Due to Edmonton not having a ton of public art, there is only a handful of possible images that will be send back :)
