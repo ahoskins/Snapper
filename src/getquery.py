@@ -23,7 +23,8 @@ def getsearchquery():
     results = json.loads(search_results)
 
     chosen = thechosenone(results)
-    return chosen['title'] + ' ' + chosen['artist_name']
+    return dict({ 'title': chosen['title'], 'artist': chosen['artist_name'] })
+    # return chosen['title'] + ' ' + chosen['artist_name']
 
 # if __name__ == '__main__':
 # 	getsearchquery()

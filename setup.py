@@ -13,7 +13,7 @@ setup(
     author='Anastasis Germanidis',
     author_email='agermanidis@gmail.com',
     url='https://github.com/agermanidis/SnapchatBot',
-    packages=['snapchat_bots'],
+    packages=['lib'],
     install_requires=[
         'schedule>=0.3.1',
         'requests>=2.5.1',

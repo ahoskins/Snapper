@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from snapchat_bots import SnapchatBot, Snap
+from lib import SnapchatBot, Snap
 import requests
 import tempfile
 import urlparse
@@ -33,7 +33,7 @@ def search(query):
 class ReflectorBot(SnapchatBot):
     def on_snap(self, sender, snap):
         query = getsearchquery()
-        local_filename = download_file(search(query))
+        local_filename = download_file(search(query['title'] + ' ' + query['artist']))
         snap = Snap.from_file(local_filename, query)
         self.send_snap([sender], snap)
 

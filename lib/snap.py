@@ -1,5 +1,5 @@
 import subprocess, uuid
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from StringIO import StringIO
 
 from utils import guess_type, create_temporary_file, get_video_duration, resize_image, file_extension_for_type
@@ -8,7 +8,7 @@ from exceptions import UnknownMediaType
 
 class Snap(object):
     @staticmethod
-    def from_file(path, text, duration = None):
+    def from_file(path, query, duration = None):
         media_type = guess_type(path)
 
         if media_type is MEDIA_TYPE_VIDEO:
@@ -21,7 +21,8 @@ class Snap(object):
             image = Image.open(path)
 
             draw = ImageDraw.Draw(image)
-            draw.text((0, 0), text, (255,255,255))
+            font = ImageFont.truetype("aller-font.ttf", 25)
+            draw.text((10, 10), 'Name:' + query['title'] + ' Artist:' + query['artist'], (255,255,255), font=font)
             del draw
 
             tmp = create_temporary_file(".jpg")
