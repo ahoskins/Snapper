@@ -34,7 +34,7 @@ class ReflectorBot(SnapchatBot):
     def on_snap(self, sender, snap):
         query = getsearchquery()
         local_filename = download_file(search(query))
-        snap = Snap.from_file(local_filename)
+        snap = Snap.from_file(local_filename, query)
         self.send_snap([sender], snap)
 
     def on_friend_add(self, friend):
