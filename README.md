@@ -1,8 +1,8 @@
 # Snapper
 
-Created for the Canadian Open Data Experiance (CODE) hackathon.  The purpose of the CODE hackathon is to use open data to build an app/service.  This is the repo for a Snapchat bot service which snaps images of Edmonton public art.
+This was built during the Canadian Open Data Experiance (CODE) hackathon, a hackathon which requires the use of open data.
 
-Snapper is a Python service using Snapchat's (non-public) API.  This project relies on [SnapchatBot](https://github.com/agermanidis/SnapchatBot) to provide a Python interface and some boilerplate for making a bot that resides on Snapchat.  This library is included in this repo - no need to install it seperately.
+Snapper is a Python built Snapchat bot using [Edmonton public art data](http://namara.io/#/display/51b6af69-fcd9-4517-ac6b-39e89310c1eb).  This project relies on [SnapchatBot](https://github.com/agermanidis/SnapchatBot) to provide a Python interface and some boilerplate for making a bot that resides on Snapchat.  This library is included in this repo - no need to install it seperately.
 
 # Installation
 
